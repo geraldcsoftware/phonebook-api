@@ -5,4 +5,4 @@ namespace PhoneBook.Api.Commands;
 public record CreatePhoneBookEntryRequest
 (Guid PhoneBookId,
  string Name,
- string PhoneNumber) : IRequest<DTOs.PhoneBookEntry>;
+ IReadOnlyCollection<string> PhoneNumbers) : IRequest<DTOs.PhoneBookEntry>;

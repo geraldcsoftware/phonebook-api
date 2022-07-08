@@ -28,7 +28,7 @@ public class CreatePhoneBookEntryRequestHandler : IRequestHandler<CreatePhoneBoo
             Id = Guid.NewGuid(),
             Name = request.Name,
             PhoneBookId = request.PhoneBookId,
-            PhoneNumber = request.PhoneNumber
+            PhoneNumber = JsonSerializer.Serialize(request.PhoneNumbers)
         };
 
         _dbContext.Entries.Add(phoneBookEntry);
