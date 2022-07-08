@@ -8,6 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="fluentvalidation" Version="11.1.0" />
+    <PackageReference Include="fluentvalidation.aspnetcore" Version="11.1.2" />
     <PackageReference Include="mapster" Version="7.3.0" />
     <PackageReference Include="mapster.dependencyinjection" Version="1.0.0" />
     <PackageReference Include="mediatr" Version="10.0.1" />
