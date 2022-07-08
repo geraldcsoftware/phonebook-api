@@ -7,6 +7,7 @@ namespace PhoneBook.Api.Data.Models;
 public class PhoneBookEntry
 {
     public Guid Id { get; set; }
+    public Guid PhoneBookId { get; set; }
     public string? Name { get; set; }
     public string? PhoneNumber { get; set; }
 }

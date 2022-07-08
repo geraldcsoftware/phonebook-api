@@ -1,3 +1,5 @@
+using System.Reflection;
+using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using PhoneBook.Api.Data;
@@ -37,6 +39,7 @@ builder.Services.AddDbContext<PhoneBookDbContext>((sp, options) =>
     options.UseLoggerFactory(loggerFactory);
 });
 
+builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
 builder.Services.AddMapper();
 
 var app = builder.Build();
