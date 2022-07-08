@@ -16,7 +16,7 @@ using Commands = PhoneBook.Api.Commands;
 var builder = WebApplication.CreateBuilder(args);
 
 const string logTemplate =
-    "{@t:yyyy/MM/dd HH:mm:ss} [{@l} - {SourceContext}] {@m}{NewLine}{#if IsDefined(@x)}{@x}{NewLine}{#end}";
+    "{@t:yyyy/MM/dd HH:mm:ss} [{@l} - {SourceContext}] {@m}\n{#if IsDefined(@x)}{@x}\n{#end}";
 
 builder.Host.UseSerilog((context, config) =>
 {
@@ -34,6 +34,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             options.Authority = builder.Configuration["Authentication:Authority"];
             options.Audience = builder.Configuration["Authentication:Audience"];
         });
+builder.Services.AddAuthorization();
 
 builder.Services.AddDbContext<PhoneBookDbContext>((sp, options) =>
 {
@@ -43,6 +44,8 @@ builder.Services.AddDbContext<PhoneBookDbContext>((sp, options) =>
         throw new Exception("Connection string not properly configured in the app configuration");
     options.UseNpgsql(connectionString);
     options.UseLoggerFactory(loggerFactory);
+    options.EnableSensitiveDataLogging();
+    options.EnableDetailedErrors();
 });
 
 builder.Services.AddFluentValidation();
@@ -87,7 +90,7 @@ app.MapGet("/api/phonebooks/{phoneBookId:guid}/entries",
            });
 
 app.MapPost("/api/phonebooks/{phoneBookId:guid}/entries",
-            async (Guid phoneBookId, DTOs.AddEntryRequest requestModel, 
+            async (Guid phoneBookId, DTOs.AddEntryRequest requestModel,
                    IValidator<DTOs.AddEntryRequest> validator,
                    IMediator mediator) =>
             {
@@ -96,12 +99,18 @@ app.MapPost("/api/phonebooks/{phoneBookId:guid}/entries",
                 {
                     return Results.BadRequest(validationResult.Errors);
                 }
-                
+
                 var command = new Commands.CreatePhoneBookEntryRequest(phoneBookId,
                                                                        requestModel.Name!,
                                                                        requestModel.PhoneNumbers!);
                 var response = await mediator.Send(command);
                 return Results.Ok(response);
             });
+
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<PhoneBookDbContext>();
+    await dbContext.Database.EnsureCreatedAsync();
+}
 
 app.Run();

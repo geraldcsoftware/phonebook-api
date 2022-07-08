@@ -11,7 +11,7 @@ public class PhoneBookEntryEntityConfiguration : IEntityTypeConfiguration<PhoneB
         builder.ToTable("PhoneBookEntries");
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Name).IsRequired().IsUnicode().HasMaxLength(200);
-        builder.Property(x => x.PhoneNumber).IsRequired().HasColumnType("jsonb");
+        builder.Property(x => x.PhoneNumber).IsRequired().IsUnicode(false).HasMaxLength(300);
 
         builder.HasOne<Models.PhoneBook>()
                .WithMany(x => x.Entries)

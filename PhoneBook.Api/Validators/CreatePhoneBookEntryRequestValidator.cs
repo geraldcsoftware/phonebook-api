@@ -14,6 +14,7 @@ public class CreatePhoneBookEntryRequestValidator : AbstractValidator<DTOs.AddEn
                                      {
                                          return x is { Count: >= 1 } &&
                                                 x.All(val => Regex.IsMatch(val, @"^(\+|00)[1-9][0-9]{10,13}"));
-                                     });
+                                     })
+                                    .WithMessage("Invalid phone number, use international E16 format");
     }
 }

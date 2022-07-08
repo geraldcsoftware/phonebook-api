@@ -31,7 +31,7 @@ public class GetPhoneEntriesRequestHandler :
         {
             var matchText = $"%{request.SearchText.Trim()}%";
             query = query.Where(p => EF.Functions.Like(p.Name!, matchText) ||
-                                     EF.Functions.JsonContains(p.PhoneNumber!, request.SearchText));
+                                     EF.Functions.Like(p.PhoneNumber!, matchText));
         }
 
         var phoneBookEntries = await query.ToListAsync(cancellationToken);
