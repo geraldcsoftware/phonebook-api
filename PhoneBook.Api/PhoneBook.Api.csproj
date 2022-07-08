@@ -8,10 +8,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="mapster" Version="7.3.0" />
+    <PackageReference Include="mapster.dependencyinjection" Version="1.0.0" />
     <PackageReference Include="mediatr" Version="10.0.1" />
     <PackageReference Include="mediatr.extensions.microsoft.dependencyinjection" Version="10.0.1" />
+    <PackageReference Include="microsoft.aspnetcore.authentication.jwtbearer" Version="6.0.6" />
     <PackageReference Include="microsoft.entityframeworkcore" Version="6.0.6" />
+    <PackageReference Include="npgsql.entityframeworkcore.postgresql" Version="6.0.5" />
     <PackageReference Include="serilog.aspnetcore" Version="5.0.0" />
+    <PackageReference Include="serilog.expressions" Version="3.4.0" />
+    <PackageReference Include="swashbuckle.aspnetcore" Version="6.3.1" />
   </ItemGroup>
 
 </Project>
