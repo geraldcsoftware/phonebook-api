@@ -1,9 +1,9 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
-using PhoneBook.Api.Commands;
-using PhoneBook.Api.Data;
+using PhoneBook.Core.Queries;
+using PhoneBook.Data;
 
-namespace PhoneBook.Api.CommandHandlers;
+namespace PhoneBook.Core.QueryHandlers;
 
 public class GetPhoneBooksRequestHandler : IRequestHandler<GetPhoneBooksRequest, IReadOnlyCollection<DTOs.PhoneBook>>
 {

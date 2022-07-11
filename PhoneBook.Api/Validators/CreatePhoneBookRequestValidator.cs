@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using PhoneBook.Api.DTOs;
+using PhoneBook.DTOs;
 
 namespace PhoneBook.Api.Validators;
 

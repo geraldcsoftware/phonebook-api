@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+
+    <ItemGroup>
+        <PackageReference Include="mediatr" Version="10.0.1" />
+        <PackageReference Include="mediatr.extensions.microsoft.dependencyinjection" Version="10.0.1" />
+    </ItemGroup>
+
+
+    <ItemGroup>
+      <ProjectReference Include="..\PhoneBook.Data\PhoneBook.Data.csproj" />
+      <ProjectReference Include="..\PhoneBook.DTOs\PhoneBook.DTOs.csproj" />
+    </ItemGroup>
+</Project>

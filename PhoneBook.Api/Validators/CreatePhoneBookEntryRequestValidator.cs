@@ -3,7 +3,7 @@ using FluentValidation;
 
 namespace PhoneBook.Api.Validators;
 
-public class CreatePhoneBookEntryRequestValidator : AbstractValidator<DTOs.AddEntryRequest>
+public class CreatePhoneBookEntryRequestValidator : AbstractValidator<DTOs.AddPhoneBookEntryRequest>
 {
     public CreatePhoneBookEntryRequestValidator()
     {

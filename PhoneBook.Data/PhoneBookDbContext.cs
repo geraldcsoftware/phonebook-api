@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace PhoneBook.Api.Data;
+namespace PhoneBook.Data;
 
 public class PhoneBookDbContext : DbContext
 {

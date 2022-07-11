@@ -1,49 +1,43 @@
-using System.Text.Json;
 using FluentAssertions;
-using Mapster;
-using MapsterMapper;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Primitives;
-using PhoneBook.Api.CommandHandlers;
-using PhoneBook.Api.Commands;
-using PhoneBook.Api.Data;
-using PhoneBook.Api.Mapping;
-using Models = PhoneBook.Api.Data.Models;
+using PhoneBook.Core.CommandHandlers;
+using PhoneBook.Core.Commands;
+using PhoneBook.Data;
 
 namespace PhoneBook.Api.Tests;
 
 public class CreatePhoneBookEntryRequestHandlerTests
 {
     [Fact]
-    public void HandleTests_ShouldAddPhoneBookEntryToDatabase()
+    public async Task HandleTests_ShouldAddPhoneBookEntryToDatabase()
     {
         // Arrange
         var dbContextOptions = new DbContextOptionsBuilder<PhoneBookDbContext>()
                               .UseInMemoryDatabase(Guid.NewGuid().ToString()).Options;
         var dbContext = new PhoneBookDbContext(dbContextOptions);
 
-        var serviceCollection = new ServiceCollection();
-        serviceCollection.AddMapper();
-        var mapper = serviceCollection.BuildServiceProvider().GetRequiredService<IMapper>();
-        
-        var handler = new CreatePhoneBookEntryRequestHandler(dbContext, mapper);
+        var handler = new CreatePhoneBookEntryRequestHandler(dbContext);
 
-        var phoneBook = new Models.PhoneBook
+        var phoneBook = new Data.Models.PhoneBook
         {
             Id = Guid.NewGuid(),
             Name = "Test Phone Book",
         };
         dbContext.PhoneBooks.Add(phoneBook);
-        dbContext.SaveChanges();
-        
-        var request = new CreatePhoneBookEntryRequest(phoneBook.Id, "Test Entry", new StringValues("0012344590459"));
+        await dbContext.SaveChangesAsync();
+
+        var request = new CreatePhoneBookEntryCommand(phoneBook.Id, "Test Entry", new StringValues("0012344590459"));
 
         // Act
-        var result = handler.Handle(request, default).GetAwaiter().GetResult();
+        var result = await handler.Handle(request, default);
 
         // Assert
         result.Should().NotBeNull();
         result.Name.Should().Be("Test Entry");
+
+        var persistedEntry = await dbContext.Entries.FirstOrDefaultAsync(x => x.PhoneBookId == phoneBook.Id &&
+                                                                              x.PhoneNumber == "0012344590459");
+        persistedEntry.Should().NotBeNull();
     }
 }

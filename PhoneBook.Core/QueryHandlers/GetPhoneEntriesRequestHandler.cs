@@ -1,23 +1,20 @@
-﻿using MapsterMapper;
+﻿using System.Text.Json;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using PhoneBook.Api.Commands;
-using PhoneBook.Api.Data;
-using PhoneBook.Api.DTOs;
+using PhoneBook.Core.Queries;
+using PhoneBook.Data;
+using PhoneBook.DTOs;
 
-namespace PhoneBook.Api.CommandHandlers;
+namespace PhoneBook.Core.QueryHandlers;
 
 public class GetPhoneEntriesRequestHandler :
     IRequestHandler<GetPhoneEntriesRequest, IReadOnlyCollection<PhoneBookEntry>>
 {
     private readonly PhoneBookDbContext _dbContext;
-    private readonly IMapper _mapper;
 
-    public GetPhoneEntriesRequestHandler(PhoneBookDbContext dbContext,
-                                         IMapper mapper)
+    public GetPhoneEntriesRequestHandler(PhoneBookDbContext dbContext)
     {
         _dbContext = dbContext;
-        _mapper = mapper;
     }
 
     public async Task<IReadOnlyCollection<PhoneBookEntry>> Handle(GetPhoneEntriesRequest request,
@@ -35,6 +32,12 @@ public class GetPhoneEntriesRequestHandler :
         }
 
         var phoneBookEntries = await query.ToListAsync(cancellationToken);
-        return _mapper.Map<IReadOnlyCollection<PhoneBookEntry>>(phoneBookEntries);
+        return phoneBookEntries.Select(p => new PhoneBookEntry
+        {
+            Id = p.Id,
+            Name = p.Name,
+            PhoneBookId = p.PhoneBookId,
+            PhoneNumbers = JsonSerializer.Deserialize<string[]>(p.PhoneNumber!)!
+        }).ToList();
     }
 }

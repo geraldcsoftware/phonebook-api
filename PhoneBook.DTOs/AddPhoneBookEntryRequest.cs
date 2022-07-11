@@ -1,6 +1,6 @@
-﻿namespace PhoneBook.Api.DTOs;
+﻿namespace PhoneBook.DTOs;
 
-public class AddEntryRequest
+public class AddPhoneBookEntryRequest
 {
     public Guid? PhoneBookId { get; set; }
     public string? Name { get; set; }

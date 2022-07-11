@@ -1,26 +1,33 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>b686359e-f693-4ac4-a7eb-4c4712109a2b</UserSecretsId>
-    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-  </PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <UserSecretsId>b686359e-f693-4ac4-a7eb-4c4712109a2b</UserSecretsId>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="fluentvalidation" Version="11.1.0" />
-    <PackageReference Include="fluentvalidation.aspnetcore" Version="11.1.2" />
-    <PackageReference Include="mapster" Version="7.3.0" />
-    <PackageReference Include="mapster.dependencyinjection" Version="1.0.0" />
-    <PackageReference Include="mediatr" Version="10.0.1" />
-    <PackageReference Include="mediatr.extensions.microsoft.dependencyinjection" Version="10.0.1" />
-    <PackageReference Include="microsoft.aspnetcore.authentication.jwtbearer" Version="6.0.6" />
-    <PackageReference Include="microsoft.entityframeworkcore" Version="6.0.6" />
-    <PackageReference Include="npgsql.entityframeworkcore.postgresql" Version="6.0.5" />
-    <PackageReference Include="serilog.aspnetcore" Version="5.0.0" />
-    <PackageReference Include="serilog.expressions" Version="3.4.0" />
-    <PackageReference Include="swashbuckle.aspnetcore" Version="6.3.1" />
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="fastendpoints" Version="4.3.0"/>
+        <PackageReference Include="fluentvalidation" Version="11.1.0"/>
+        <PackageReference Include="fluentvalidation.aspnetcore" Version="11.1.2"/>
+        <PackageReference Include="mapster" Version="7.3.0"/>
+        <PackageReference Include="mapster.dependencyinjection" Version="1.0.0"/>
+        <PackageReference Include="mediatr" Version="10.0.1"/>
+        <PackageReference Include="mediatr.extensions.microsoft.dependencyinjection" Version="10.0.1"/>
+        <PackageReference Include="microsoft.aspnetcore.authentication.jwtbearer" Version="6.0.6"/>
+        <PackageReference Include="microsoft.entityframeworkcore" Version="6.0.6"/>
+        <PackageReference Include="npgsql.entityframeworkcore.postgresql" Version="6.0.5"/>
+        <PackageReference Include="serilog.aspnetcore" Version="5.0.0"/>
+        <PackageReference Include="serilog.expressions" Version="3.4.0"/>
+        <PackageReference Include="swashbuckle.aspnetcore" Version="6.3.1"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\PhoneBook.Core\PhoneBook.Core.csproj"/>
+        <ProjectReference Include="..\PhoneBook.Data\PhoneBook.Data.csproj"/>
+        <ProjectReference Include="..\PhoneBook.DTOs\PhoneBook.DTOs.csproj"/>
+    </ItemGroup>
 
 </Project>

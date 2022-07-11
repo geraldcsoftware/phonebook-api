@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using PhoneBook.Api.Data.Configuration;
+using PhoneBook.Data.Configuration;
 
-namespace PhoneBook.Api.Data.Models;
+namespace PhoneBook.Data.Models;
 
 [EntityTypeConfiguration(typeof(PhoneBookEntityConfiguration))]
 public class PhoneBook

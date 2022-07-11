@@ -1,4 +1,4 @@
-﻿namespace PhoneBook.Api.DTOs;
+﻿namespace PhoneBook.DTOs;
 
 public class PhoneBook
 {

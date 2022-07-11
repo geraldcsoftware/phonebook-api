@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace PhoneBook.Api.Commands;
+namespace PhoneBook.Core.Queries;
 
 public record GetPhoneBooksRequest : IRequest<IReadOnlyCollection<DTOs.PhoneBook>>
 {

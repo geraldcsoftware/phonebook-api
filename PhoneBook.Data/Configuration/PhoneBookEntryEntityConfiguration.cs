@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using PhoneBook.Api.Data.Models;
+using PhoneBook.Data.Models;
 
-namespace PhoneBook.Api.Data.Configuration;
+namespace PhoneBook.Data.Configuration;
 
 public class PhoneBookEntryEntityConfiguration : IEntityTypeConfiguration<PhoneBookEntry>
 {

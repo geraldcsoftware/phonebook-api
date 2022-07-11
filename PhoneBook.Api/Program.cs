@@ -1,17 +1,16 @@
 using System.Reflection;
+using FastEndpoints;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using PhoneBook.Api.Commands;
-using PhoneBook.Api.Data;
+using PhoneBook.Data;
 using PhoneBook.Api.Mapping;
 using PhoneBook.Api.Validators;
 using Serilog;
 using Serilog.Templates;
-using DTOs = PhoneBook.Api.DTOs;
-using Commands = PhoneBook.Api.Commands;
+using DTOs = PhoneBook.DTOs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -50,62 +49,18 @@ builder.Services.AddDbContext<PhoneBookDbContext>((sp, options) =>
 
 builder.Services.AddFluentValidation();
 builder.Services.AddTransient<IValidator<DTOs.CreatePhoneBookRequest>, CreatePhoneBookRequestValidator>();
-builder.Services.AddTransient<IValidator<DTOs.AddEntryRequest>, CreatePhoneBookEntryRequestValidator>();
+builder.Services.AddTransient<IValidator<DTOs.AddPhoneBookEntryRequest>, CreatePhoneBookEntryRequestValidator>();
 builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
 builder.Services.AddMapper();
+builder.Services.AddFastEndpoints();
 
 var app = builder.Build();
+
 app.UseAuthentication();
 app.UseRouting();
 app.UseAuthorization();
+app.UseFastEndpoints();
 
-app.MapGet("/api/phonebooks", async (string? searchText, IMediator mediator) =>
-{
-    var request = new GetPhoneBooksRequest { SearchText = searchText };
-    var response = await mediator.Send(request);
-    return Results.Ok(response);
-});
-
-app.MapPost("/api/phonebooks", async (DTOs.CreatePhoneBookRequest requestModel,
-                                      IValidator<DTOs.CreatePhoneBookRequest> validator,
-                                      IMediator mediator) =>
-{
-    var validationResult = validator.Validate(requestModel);
-    if (!validationResult.IsValid)
-    {
-        return Results.BadRequest(validationResult.Errors);
-    }
-
-    var command = new Commands.CreatePhoneBookRequest(requestModel.Name!);
-    var response = await mediator.Send(command);
-    return Results.Ok(response);
-});
-
-app.MapGet("/api/phonebooks/{phoneBookId:guid}/entries",
-           async (Guid phoneBookId, string? searchText, IMediator mediator) =>
-           {
-               var request = new Commands.GetPhoneEntriesRequest(phoneBookId, searchText!);
-               var response = await mediator.Send(request);
-               return Results.Ok(response);
-           });
-
-app.MapPost("/api/phonebooks/{phoneBookId:guid}/entries",
-            async (Guid phoneBookId, DTOs.AddEntryRequest requestModel,
-                   IValidator<DTOs.AddEntryRequest> validator,
-                   IMediator mediator) =>
-            {
-                var validationResult = validator.Validate(requestModel);
-                if (!validationResult.IsValid)
-                {
-                    return Results.BadRequest(validationResult.Errors);
-                }
-
-                var command = new Commands.CreatePhoneBookEntryRequest(phoneBookId,
-                                                                       requestModel.Name!,
-                                                                       requestModel.PhoneNumbers!);
-                var response = await mediator.Send(command);
-                return Results.Ok(response);
-            });
 
 using (var scope = app.Services.CreateScope())
 {
